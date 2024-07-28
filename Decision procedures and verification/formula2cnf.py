@@ -61,6 +61,10 @@ class Formula2CNF:
     #   Return: returned value is an integer name of main formula, that left on stack in the end.
     def parse_formula(self, formula):
 
+        if len(formula) == 0:
+            print("Empty file!")
+            raise Exception
+
         # Add spaces before and after brackets
         pattern = r'(?<!\s)([\(\)\[\]\{\}])|([\(\)\[\]\{\}])(?!\s)'
         formula = re.sub(pattern, r' \1\2 ', formula)
@@ -182,8 +186,7 @@ class Formula2CNF:
             row += "\n"
             output_text += row
 
-        print(output_text)
-        return ""
+        return output_text 
 
     # Reinit all class members.
     # Parse formula and perform tseiting encoding depending on the mode.
@@ -204,7 +207,7 @@ if __name__ == '__main__':
     output_file = None
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", default=None, type=str, help="Input file with NNF formula")
+    parser.add_argument("--input", default=None, type=str, help="Input file with NNF formula.")
     parser.add_argument("--output", default=None, type=str, help="Output file with DIMACS CNF formula.")
     parser.add_argument("--mode", default='eq', choices=['eq', 'left_to_right'], help="Tseitin encoding with left-to-right implications or equivalences.")
     args = parser.parse_args()
@@ -222,5 +225,5 @@ if __name__ == '__main__':
     if args.output is None:
         print(output)
     else:
-        with open(args.input, 'w') as file:
+        with open(args.output, 'w') as file:
             file.write(output)
